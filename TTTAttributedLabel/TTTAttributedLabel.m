@@ -808,6 +808,8 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
                     }
                 }
                 [truncationString appendAttributedString:attributedTruncationString];
+		// fix issue: truncation string is not incorrect range https://github.com/TTTAttributedLabel/TTTAttributedLabel/issues/519
+		truncationString = [[NSMutableAttributedString alloc] initWithAttributedString:[truncationString attributedSubstringFromRange:NSMakeRange(0, truncationString.length - attributedTruncationString.length)]]; 
                 CTLineRef truncationLine = CTLineCreateWithAttributedString((__bridge CFAttributedStringRef)truncationString);
 
                 // Truncate the line in case it is too long.
